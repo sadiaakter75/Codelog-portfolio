@@ -25,7 +25,7 @@ export default function InteractiveSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 py-24 flex flex-col md:flex-row gap-10">
         
         {/* Images Column */}
-        <div className="w-full md:w-3/5 flex flex-col gap-24">
+        <div className="w-full md:w-3/5 grid grid-cols-2 gap-4 md:gap-8">
           {IMAGES.map((src, i) => (
             <div key={i} className="relative w-full aspect-4/5 overflow-hidden group">
               <img 
@@ -44,6 +44,7 @@ export default function InteractiveSection() {
             ref={textRef}
             className="sticky top-1/3 flex flex-col gap-8 font-sans text-xl md:text-2xl leading-relaxed max-w-md mx-auto"
           >
+            <h1 className="text-8xl font-oswald font-bold">PROJECTS</h1>
             <p className="opacity-90">
               We live in an age where everything is everywhere, all the time. The real challenge is no longer visibility, but meaning. We exist to build authentic connections between brands and people where every experience, physical or digital, becomes part of the same story.
             </p>

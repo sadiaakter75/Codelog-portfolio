@@ -20,40 +20,29 @@ export default function Hero() {
     // Create a continuous sweep effect timeline for the images
     const tl = gsap.timeline({ repeat: -1 });
 
-    // Initial state: all images after the first one are clipped (hidden)
+    // Initial state setup
     imagesRef.current.forEach((img, i) => {
       if (!img) return;
-      if (i > 0) {
-        gsap.set(img, { clipPath: "inset(0 0 0 100%)" });
-      } else {
-        gsap.set(img, { clipPath: "inset(0 0 0 0%)" });
-      }
+      gsap.set(img, { 
+        clipPath: i === 0 ? "inset(0 0 0 0%)" : "inset(0 0 0 100%)",
+        zIndex: i + 1
+      });
     });
 
-    // Reveal animation
+    let currentZ = IMAGES.length + 1;
+
     IMAGES.forEach((_, i) => {
-      if (i === 0) return; // Skip first image as it's already visible
-      tl.to(imagesRef.current[i], {
-        clipPath: "inset(0 0 0 0%)",
-        duration: 1.5,
-        ease: "power2.inOut",
-      }, "+=2"); // Wait 2 seconds before sweeping the next image
-    });
+      const nextIndex = (i + 1) % IMAGES.length;
+      const nextImg = imagesRef.current[nextIndex];
 
-    // At the end, reset all except the last one, and then reveal the first one again
-    tl.to(imagesRef.current[0], {
-      clipPath: "inset(0 0 0 100%)",
-      duration: 0,
-    });
-    tl.to(imagesRef.current[0], {
-      clipPath: "inset(0 0 0 0%)",
-      duration: 1.5,
-      ease: "power2.inOut",
-    }, "+=2");
-
-    // We need to reset the others back to 100% when the first image covers them
-    tl.set(imagesRef.current.slice(1), {
-      clipPath: "inset(0 0 0 100%)",
+      if (nextImg) {
+        tl.set(nextImg, { zIndex: currentZ++, clipPath: "inset(0 0 0 100%)" }, "+=2");
+        tl.to(nextImg, {
+          clipPath: "inset(0 0 0 0%)",
+          duration: 1.5,
+          ease: "power2.inOut",
+        });
+      }
     });
 
     return () => {
@@ -79,39 +68,19 @@ export default function Hero() {
               src={src}
               alt={`Background ${i + 1}`}
               className="absolute inset-0 w-full h-full object-cover brightness-50"
-              style={{
-                zIndex: i + 1, // Stack them properly
-              }}
             />
           ))}
         </div>
       </div>
 
-      {/* Header / Nav Area */}
-      <header className="relative z-10 w-full p-6 md:p-10 flex justify-between items-start mix-blend-difference">
-        <div className="flex items-center">
-          <Logo className="w-24 md:w-32 h-auto" />
-        </div>
-        <div className="hidden md:flex gap-16 text-sm uppercase tracking-widest text-zinc-300 font-sans">
-          <div className="max-w-[200px]">
-            <p>Ecommerce and brand systems. Driven by visions. Built with design and technology.</p>
-          </div>
-          <div>
-            <p>hello@evolve.com</p>
-            <p>Modena, EST 2008©</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 text-sm font-sans uppercase font-medium mix-blend-difference text-white">
-          <span>IT</span>
-          <button className="bg-white text-black px-4 py-1">Menu</button>
-        </div>
-      </header>
+      {/* Spacer for removed header */}
+      <div className="relative z-10 w-full h-24 md:h-32 pointer-events-none shrink-0" />
 
       {/* Middle Grid Lines / Categories */}
-      <div className="relative z-10 w-full px-6 md:px-10 flex justify-between text-xs uppercase tracking-widest text-zinc-400 font-sans mix-blend-difference">
-        <span>Brand Direction</span>
-        <span>Performance Marketing</span>
-        <span>Advanced Tech</span>
+      <div className="relative z-10 w-full p-6 md:p-10 flex justify-between text-[10px] md:text-xs uppercase tracking-widest text-zinc-400 font-sans mix-blend-difference">
+        <span>Web Applications</span>
+        <span>Digital Experiences</span>
+        <span>Frontend Architecture</span>
       </div>
 
       {/* Big Text */}

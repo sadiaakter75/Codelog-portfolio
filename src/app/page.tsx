@@ -1,5 +1,8 @@
 import Hero from "@/components/Hero";
 import InteractiveSection from "@/components/InteractiveSection";
+import AboutSection from "@/components/AboutSection";
+import ServicesSection from "@/components/ServicesSection";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -10,7 +13,22 @@ export default function Home() {
       </div>
 
       {/* Content that scrolls over the Hero */}
-      <InteractiveSection />
+      <div id="projects">
+        <InteractiveSection />
+      </div>
+      
+      {/* Additional Scrollable Sections */}
+      <div id="about">
+        <AboutSection />
+      </div>
+      <div id="services">
+        <ServicesSection />
+      </div>
+      
+      {/* Cinematic Reveal Footer */}
+      <div id="contact">
+        <Footer />
+      </div>
     </main>
   );
 }

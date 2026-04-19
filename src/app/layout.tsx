@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import Header from "@/components/navigation/Header";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,7 +29,11 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${oswald.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-950 text-white font-sans overflow-x-hidden">
+      <body 
+        className="min-h-full flex flex-col bg-zinc-950 text-white font-sans overflow-x-hidden"
+        suppressHydrationWarning
+      >
+        <Header />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
