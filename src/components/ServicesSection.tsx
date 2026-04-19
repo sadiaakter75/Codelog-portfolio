@@ -8,27 +8,27 @@ import { FlowerIcon } from "./ui/FlowerIcon";
 const STEPS = [
   {
     num: "01",
-    title: "Subscribe",
-    desc: "Pick a plan that fits your workload and pay monthly, with no contracts and no minimum commitment. Pause or cancel to the next month whenever you need to.",
+    title: "Get in Touch",
+    desc: "Let us know your project requirements on X or LinkedIn and we'll get back to you with a proposal.",
     img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1000",
   },
   {
     num: "02",
-    title: "Request",
-    desc: "Send your work through Slack, email, or wherever your team already communicates. We tackle one request at a time in the order you set.",
+    title: "Planning & Proposal",
+    desc: "We send you a detailed proposal with a timeline and breakdown of costs. Once you approve, we begin working on your project.",
     img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000",
   },
   {
     num: "03",
-    title: "Ship",
-    desc: "You'll receive deliverables every 2-5 business days with unlimited revisions until you're happy.",
+    title: "Build and Ship",
+    desc: "We start building your project and ship it to you in 5-10 business days with unlimited revisions until you're satisfied.",
     img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000",
   },
   {
     num: "04",
-    title: "Repeat",
-    desc: "Submit your next request and we keep going the same way. Your backlog shrinks and your product gets better, month after month.",
-    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1000",
+    title: "Launch and Support",
+    desc: "We make your website live and provide ongoing support to ensure everything runs smoothly.",
+    img: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=1000",
   }
 ];
 
@@ -43,20 +43,36 @@ export default function ServicesSection() {
       const imgElements = gsap.utils.toArray('.step-img') as HTMLElement[];
 
       function activateStep(step: HTMLElement, imgs: HTMLElement[], index: number) {
-        gsap.to(step, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-        gsap.to(step.querySelector('.step-icon'), { opacity: 1, scale: 1, rotation: 180, duration: 0.8, ease: "back.out(1.5)" });
+        if (!step) return;
+        const icon = step.querySelector('.step-icon');
         
-        gsap.to(imgs, { opacity: 0, duration: 0.8, ease: "power2.inOut" });
-        gsap.to(imgs[index], { opacity: 1, duration: 0.8, ease: "power2.inOut" });
+        gsap.to(step, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+        if (icon) {
+          gsap.to(icon, { opacity: 1, scale: 1, rotation: 180, duration: 0.8, ease: "back.out(1.5)" });
+        }
+        
+        if (imgs && imgs.length > 0) {
+          gsap.to(imgs, { opacity: 0, duration: 0.8, ease: "power2.inOut" });
+          if (imgs[index]) {
+            gsap.to(imgs[index], { opacity: 1, duration: 0.8, ease: "power2.inOut" });
+          }
+        }
       }
 
       function deactivateStep(step: HTMLElement) {
+        if (!step) return;
+        const icon = step.querySelector('.step-icon');
+        
         gsap.to(step, { opacity: 0.3, y: 10, duration: 0.8, ease: "power2.inOut" });
-        gsap.to(step.querySelector('.step-icon'), { opacity: 0, scale: 0.5, rotation: 0, duration: 0.8, ease: "power2.inOut" });
+        if (icon) {
+          gsap.to(icon, { opacity: 0, scale: 0.5, rotation: 0, duration: 0.8, ease: "power2.inOut" });
+        }
       }
 
       // Set initial state
-      gsap.set(stepElements, { y: 10 });
+      if (stepElements.length > 0) {
+        gsap.set(stepElements, { y: 10 });
+      }
 
       let activeIndex = -1;
 

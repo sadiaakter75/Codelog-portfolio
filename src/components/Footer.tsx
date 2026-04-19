@@ -353,7 +353,7 @@ export function Footer() {
               © 2026 Codelog. All rights reserved.
             </div>
 
-            <div className="footer-glass-pill px-6 py-3 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-white/10">
+            <div className="footer-glass-pill px-6 py-3 rounded-full flex items-center gap-2 order-1 md:order-2 md:absolute md:left-1/2 md:-translate-x-1/2 cursor-default border-white/10">
               <span className="text-zinc-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Crafted with</span>
               <span className="animate-footer-heartbeat text-sm md:text-base text-red-500">❤</span>
               <span className="text-zinc-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">by</span>

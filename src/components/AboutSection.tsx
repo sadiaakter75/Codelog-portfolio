@@ -18,7 +18,8 @@ export default function AboutSection() {
           trigger: sectionRef.current,
           start: "top 75%",
           end: "top 10%",
-          scrub: 2.5,
+          scrub: 1.2,
+          fastScrollEnd: true,
         }
       });
 
@@ -28,7 +29,7 @@ export default function AboutSection() {
       leftFlowers.forEach((flower) => {
         tl.fromTo(flower, 
           { x: -300 - Math.random() * 200, y: (Math.random() - 0.5) * 200, rotation: -360, opacity: 0 }, 
-          { x: 0, y: 0, rotation: 0, opacity: 1, ease: "none" }, 
+          { x: 0, y: 0, rotation: 0, opacity: 1, ease: "none", force3D: true }, 
           0
         );
       });
@@ -36,7 +37,7 @@ export default function AboutSection() {
       rightFlowers.forEach((flower) => {
         tl.fromTo(flower, 
           { x: 300 + Math.random() * 200, y: (Math.random() - 0.5) * 200, rotation: 360, opacity: 0 }, 
-          { x: 0, y: 0, rotation: 0, opacity: 1, ease: "none" }, 
+          { x: 0, y: 0, rotation: 0, opacity: 1, ease: "none", force3D: true }, 
           0
         );
       });
@@ -72,8 +73,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      <div className="relative z-10 w-full flex items-center justify-center">
-        <MagicText text="ICOMAT invented RTS. Rapid Tow Shearing." />
+      <div className="relative z-10 w-full flex items-center justify-center ">
+        <MagicText text="We are a web development team focused on building clean, functional, and user-friendly websites. Our goal is to create digital experiences that not only look good but also perform reliably." />
       </div>
 
     </section>

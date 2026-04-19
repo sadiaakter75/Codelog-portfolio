@@ -3,6 +3,7 @@ import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/navigation/Header";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,6 +34,7 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-zinc-950 text-white font-sans overflow-x-hidden"
         suppressHydrationWarning
       >
+        <LoadingScreen />
         <Header />
         <SmoothScroll>{children}</SmoothScroll>
       </body>

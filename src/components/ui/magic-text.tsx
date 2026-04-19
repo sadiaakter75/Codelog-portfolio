@@ -14,27 +14,25 @@ export const MagicText: React.FC<MagicTextProps> = ({ text }) => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     
-    const ctx = gsap.context(() => {
-      const words = gsap.utils.toArray('.word-span') as HTMLElement[];
+    const ctx = gsap.context((self) => {
+      const words = self.selector?.('.word-reveal') as HTMLElement[];
       
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-          end: "top 25%",
-          scrub: true,
-        }
-      });
-
-      words.forEach((word, i) => {
-        const reveal = word.querySelector('.word-reveal');
-        if (reveal) {
-          tl.to(reveal, {
-            opacity: 1,
-            ease: "none"
-          }, i / words.length);
-        }
-      });
+      if (words && words.length > 0) {
+        gsap.to(words, {
+          opacity: 1,
+          stagger: 0.1,
+          ease: "none",
+          force3D: true,
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            end: "bottom 35%",
+            scrub: 0.5,
+            fastScrollEnd: true,
+            preventOverlaps: true,
+          }
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -45,10 +43,14 @@ export const MagicText: React.FC<MagicTextProps> = ({ text }) => {
   return (
     <div 
       ref={containerRef} 
-      className="relative flex flex-wrap justify-center text-center max-w-4xl mx-auto leading-none p-4 text-black"
+      className="relative flex flex-wrap justify-center text-center max-w-6xl mx-auto leading-[1.1] p-4 text-black"
     >
       {words.map((word, i) => (
-        <span key={i} className="word-span relative mt-[12px] mr-2 text-4xl md:text-7xl font-bold tracking-tight">
+        <span 
+          key={i} 
+          className="word-span relative mt-[8px] mr-2 text-2xl md:text-5xl font-bold tracking-tight"
+          style={{ willChange: "opacity" }}
+        >
           <span className="absolute opacity-10">{word}</span>
           <span className="word-reveal opacity-0">{word}</span>
         </span>
