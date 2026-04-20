@@ -82,8 +82,8 @@ export default function Hero() {
               }}
               src={src}
               alt={`Background ${i + 1}`}
-              className="absolute inset-0 w-full h-full object-cover brightness-75"
-              style={{ willChange: 'clip-path' }}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ willChange: 'clip-path, transform', transform: 'translateZ(0)' }}
               decoding="async"
             />
           ))}
@@ -101,22 +101,26 @@ export default function Hero() {
 
       {/* Middle Grid Lines / Categories */}
       <div 
-        className="relative z-10 w-full p-6 md:p-10 flex justify-between text-[10px] md:text-xs uppercase tracking-widest text-zinc-400 font-sans mix-blend-difference"
-        style={{ willChange: 'mix-blend-mode', transform: 'translateZ(0)' }}
+        className="relative z-10 w-full p-6 md:p-10 flex justify-between text-[10px] md:text-xs uppercase tracking-widest text-zinc-300 font-sans"
+        style={{ transform: 'translateZ(0)' }}
       >
-        <span>Web Applications</span>
-        <span>Digital Experiences</span>
-        <span>Frontend Architecture</span>
+        <span className="drop-shadow-sm">Web Applications</span>
+        <span className="drop-shadow-sm">Digital Experiences</span>
+        <span className="drop-shadow-sm">Frontend Architecture</span>
       </div>
 
       {/* Big Text */}
       <div 
-        className="relative z-10 w-full flex flex-col items-center justify-center pb-20 md:pb-32 px-4 pointer-events-none mix-blend-difference"
-        style={{ willChange: 'mix-blend-mode', transform: 'translateZ(0)' }}
+        className="relative z-10 w-full flex flex-col items-center justify-center pb-20 md:pb-32 px-4 pointer-events-none"
+        style={{ transform: 'translateZ(0)' }}
       >
         <h1 
-          className="font-oswald text-[14vw] md:text-[10.5vw] leading-[0.85] tracking-tight text-white text-center flex flex-col items-center w-full uppercase"
-          style={{ willChange: 'transform, mix-blend-mode', transform: 'translateZ(0)' }}
+          className="font-oswald text-[14vw] md:text-[10.5vw] leading-[0.85] tracking-tight text-white text-center flex flex-col items-center w-full uppercase opacity-75"
+          style={{ 
+            willChange: 'transform', 
+            transform: 'translateZ(0)',
+            textShadow: '0 4px 12px rgba(0,0,0,0.3)'
+          }}
         >
           <span>Website</span>
           <span>Development</span>

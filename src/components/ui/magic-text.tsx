@@ -1,33 +1,33 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-export interface MagicTextProps {
-  text: string;
-}
+import { MagicTextProps } from "@/types";
 
 export const MagicText: React.FC<MagicTextProps> = ({ text }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const words = useMemo(() => text.split(" "), [text]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     
     const ctx = gsap.context((self) => {
-      const words = self.selector?.('.word-reveal') as HTMLElement[];
+      const revealElements = self.selector?.('.word-reveal') as HTMLElement[];
       
-      if (words && words.length > 0) {
-        gsap.to(words, {
+      if (revealElements && revealElements.length > 0) {
+        gsap.to(revealElements, {
           opacity: 1,
-          stagger: 0.1,
+          stagger: {
+            each: 0.1,
+            from: "start"
+          },
           ease: "none",
-          force3D: true,
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 85%",
             end: "bottom 35%",
-            scrub: 0.5,
+            scrub: true,
             fastScrollEnd: true,
             preventOverlaps: true,
           }
@@ -36,9 +36,7 @@ export const MagicText: React.FC<MagicTextProps> = ({ text }) => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [text]);
-
-  const words = text.split(" ");
+  }, [words]);
 
   return (
     <div 
@@ -49,10 +47,14 @@ export const MagicText: React.FC<MagicTextProps> = ({ text }) => {
         <span 
           key={i} 
           className="word-span relative mt-[6px] mr-2 text-2xl md:text-4xl font-bold tracking-tight"
-          style={{ willChange: "opacity" }}
         >
-          <span className="absolute opacity-10">{word}</span>
-          <span className="word-reveal opacity-0">{word}</span>
+          <span className="absolute opacity-10 pointer-events-none" aria-hidden="true">{word}</span>
+          <span 
+            className="word-reveal opacity-0" 
+            style={{ willChange: "opacity, transform", transform: "translateZ(0)" }}
+          >
+            {word}
+          </span>
         </span>
       ))}
     </div>

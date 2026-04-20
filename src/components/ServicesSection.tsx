@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FlowerIcon } from "./ui/FlowerIcon";
+import { StarIcon } from "./ui/FlowerIcon";
+import { ServiceStep } from "@/types";
 
-const STEPS = [
+const STEPS: ServiceStep[] = [
   {
     num: "01",
     title: "Get in Touch",
@@ -42,79 +43,38 @@ export default function ServicesSection() {
       const stepElements = gsap.utils.toArray('.step-item') as HTMLElement[];
       const imgElements = gsap.utils.toArray('.step-img') as HTMLElement[];
 
-      function activateStep(step: HTMLElement, imgs: HTMLElement[], index: number) {
-        if (!step) return;
+      stepElements.forEach((step, i) => {
         const icon = step.querySelector('.step-icon');
         
-        gsap.to(step, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-        if (icon) {
-          gsap.to(icon, { opacity: 1, scale: 1, rotation: 180, duration: 0.8, ease: "back.out(1.5)" });
-        }
-        
-        if (imgs && imgs.length > 0) {
-          gsap.to(imgs, { opacity: 0, duration: 0.8, ease: "power2.inOut" });
-          if (imgs[index]) {
-            gsap.to(imgs[index], { opacity: 1, duration: 0.8, ease: "power2.inOut" });
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 60%",
+          end: "bottom 40%",
+          onEnter: () => {
+            gsap.to(step, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", overwrite: true });
+            if (icon) gsap.to(icon, { opacity: 1, scale: 1, rotation: 180, duration: 0.6, ease: "back.out(1.5)", overwrite: true });
+            if (imgElements[i]) gsap.to(imgElements[i], { opacity: 1, duration: 0.6, ease: "power2.inOut", overwrite: true });
+          },
+          onLeave: () => {
+            gsap.to(step, { opacity: 0.3, y: 10, duration: 0.6, ease: "power2.inOut", overwrite: true });
+            if (icon) gsap.to(icon, { opacity: 0, scale: 0.5, rotation: 0, duration: 0.6, ease: "power2.inOut", overwrite: true });
+            if (imgElements[i]) gsap.to(imgElements[i], { opacity: 0, duration: 0.6, ease: "power2.inOut", overwrite: true });
+          },
+          onEnterBack: () => {
+            gsap.to(step, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", overwrite: true });
+            if (icon) gsap.to(icon, { opacity: 1, scale: 1, rotation: 180, duration: 0.6, ease: "back.out(1.5)", overwrite: true });
+            if (imgElements[i]) gsap.to(imgElements[i], { opacity: 1, duration: 0.6, ease: "power2.inOut", overwrite: true });
+          },
+          onLeaveBack: () => {
+            gsap.to(step, { opacity: 0.3, y: 10, duration: 0.6, ease: "power2.inOut", overwrite: true });
+            if (icon) gsap.to(icon, { opacity: 0, scale: 0.5, rotation: 0, duration: 0.6, ease: "power2.inOut", overwrite: true });
+            if (imgElements[i]) gsap.to(imgElements[i], { opacity: 0, duration: 0.6, ease: "power2.inOut", overwrite: true });
           }
-        }
-      }
-
-      function deactivateStep(step: HTMLElement) {
-        if (!step) return;
-        const icon = step.querySelector('.step-icon');
-        
-        gsap.to(step, { opacity: 0.3, y: 10, duration: 0.8, ease: "power2.inOut" });
-        if (icon) {
-          gsap.to(icon, { opacity: 0, scale: 0.5, rotation: 0, duration: 0.8, ease: "power2.inOut" });
-        }
-      }
-
-      // Set initial state
-      if (stepElements.length > 0) {
-        gsap.set(stepElements, { y: 10 });
-      }
-
-      let activeIndex = -1;
-
-      ScrollTrigger.create({
-        trigger: ".step-list-wrapper",
-        start: "top 60%",
-        end: "bottom 40%",
-        onUpdate: (self) => {
-          const centerY = window.innerHeight / 2;
-          let closestIdx = 0;
-          let minDistance = Infinity;
-
-          stepElements.forEach((step, i) => {
-            const rect = step.getBoundingClientRect();
-            const stepMid = rect.top + rect.height / 2;
-            const dist = Math.abs(stepMid - centerY);
-            if (dist < minDistance) {
-              minDistance = dist;
-              closestIdx = i;
-            }
-          });
-
-          if (closestIdx !== activeIndex) {
-            if (activeIndex !== -1) deactivateStep(stepElements[activeIndex]);
-            activateStep(stepElements[closestIdx], imgElements, closestIdx);
-            activeIndex = closestIdx;
-          }
-        },
-        onLeave: () => {
-          if (activeIndex !== -1) deactivateStep(stepElements[activeIndex]);
-          activeIndex = -1;
-        },
-        onLeaveBack: () => {
-          if (activeIndex !== -1) deactivateStep(stepElements[activeIndex]);
-          activeIndex = -1;
-        }
+        });
       });
     }, containerRef);
 
-    return () => {
-      ctx.revert(); // Proper cleanup for React Strict Mode
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -131,7 +91,7 @@ export default function ServicesSection() {
           <div className="flex flex-col gap-8 md:gap-12 pb-[50vh] pt-[30vh]">
             {STEPS.map((step, i) => (
               <div key={i} className="step-item relative opacity-30 flex gap-6 md:gap-8 transition-opacity">
-                <FlowerIcon className={`step-icon absolute -left-10 md:-left-12 top-0 w-8 h-8 md:w-10 md:h-10 ${i % 2 === 0 ? 'text-[#FF4500]' : 'text-black'} opacity-0 scale-50`} />
+                <StarIcon className={`step-icon absolute -left-10 md:-left-12 top-0 w-8 h-8 md:w-10 md:h-10 ${i % 2 === 0 ? 'text-[#FF4500]' : 'text-black'} opacity-0 scale-50`} />
                 <span className="text-zinc-500 font-mono text-lg md:text-xl font-medium mt-1">{step.num}</span>
                 <div className="flex flex-col gap-4">
                   <h3 className="text-3xl md:text-4xl font-sans font-medium text-zinc-900">{step.title}</h3>

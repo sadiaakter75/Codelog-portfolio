@@ -67,24 +67,20 @@ export default function LoadingScreen() {
           border-radius: 50%;
           background-color: #fff;
           left: 15%;
-          transform-origin: 50%;
+          transform-origin: 50% 50%;
+          will-change: transform;
           animation: circle7124 .5s alternate infinite ease;
         }
 
         @keyframes circle7124 {
           0% {
-            top: 60px;
-            height: 5px;
-            border-radius: 50px 50px 25px 25px;
-            transform: scaleX(1.7);
+            transform: translateY(60px) scaleX(1.7) scaleY(0.4);
           }
           40% {
-            height: 20px;
-            border-radius: 50%;
-            transform: scaleX(1);
+            transform: translateY(30px) scaleX(1) scaleY(1);
           }
           100% {
-            top: 0%;
+            transform: translateY(0%) scaleX(1) scaleY(1);
           }
         }
 
@@ -110,12 +106,14 @@ export default function LoadingScreen() {
           z-index: -1;
           left: 15%;
           filter: blur(1px);
+          will-change: transform, opacity;
           animation: shadow046 .5s alternate infinite ease;
         }
 
         @keyframes shadow046 {
           0% {
             transform: scaleX(1.5);
+            opacity: 0.1;
           }
           40% {
             transform: scaleX(1);
@@ -142,8 +140,8 @@ export default function LoadingScreen() {
       <div ref={containerRef} className="fixed inset-0 z-9999 flex items-center justify-center pointer-events-none">
         {/* Background Panels (Initial state: covering the screen) */}
         <div className="absolute inset-0 flex w-full h-full overflow-hidden pointer-events-auto">
-          <div className="loading-panel-left w-1/2 h-full bg-zinc-950" />
-          <div className="loading-panel-right w-1/2 h-full bg-zinc-950" />
+          <div className="loading-panel-left w-1/2 h-full bg-zinc-950" style={{ willChange: "transform" }} />
+          <div className="loading-panel-right w-1/2 h-full bg-zinc-950" style={{ willChange: "transform" }} />
         </div>
 
         {/* Loader Content */}

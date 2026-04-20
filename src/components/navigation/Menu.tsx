@@ -3,11 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Logo from "../Logo";
-
-interface MenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { MenuProps } from "@/types";
 
 export default function Menu({ isOpen, onClose }: MenuProps) {
   const overlayRef = useRef<HTMLDivElement>(null);

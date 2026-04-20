@@ -21,7 +21,7 @@ export default function Header() {
         {/* Center: Navigation Text (Hidden on mobile) */}
         <div 
           className="hidden md:flex gap-10 lg:gap-32 pointer-events-auto text-left font-sans text-[11px] md:text-xs font-semibold leading-[1.3] text-white mix-blend-difference"
-          style={{ willChange: 'mix-blend-mode', transform: 'translateZ(0)' }}
+          style={{ transform: 'translateZ(0)' }}
         >
           <div className="w-[220px]">
             <p> &nbsp; &nbsp; &nbsp;Cutting-edge web development.</p>
@@ -32,49 +32,69 @@ export default function Header() {
 
         {/* Right: Menu Toggle */}
         <div className="flex items-center pr-6 md:pr-6 gap-6 text-sm font-sans uppercase font-medium pointer-events-auto">
-          <div className="relative" style={{ willChange: 'transform, mix-blend-mode', transform: 'translateZ(0)' }}>
+          <div className="relative" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
             <style>{`
               #menu-checkbox {
                 display: none;
               }
-              .menu-toggle {
+
+              .toggle {
                 position: relative;
-                width: 50px;
-                height: 50px;
+                width: 34px;
                 cursor: pointer;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                transition-duration: .5s;
+                margin: auto;
+                display: block;
+                height: calc(3px * 3 + 8px * 2);
               }
-              .menu-bars {
-                width: 100%;
-                height: 3px;
-                border-radius: 4px;
-                transition: background-color .5s ease, transform .5s ease, width .5s ease, opacity .5s ease;
-              }
-              #menu-bar1, #menu-bar3 {
-                width: 70%;
-              }
-              #menu-checkbox:checked + .menu-toggle .menu-bars {
+
+              .bar {
                 position: absolute;
+                left: 0;
+                right: 0;
+                height: 3px;
+                border-radius: 2px;
+                background: ${isMenuOpen ? 'black' : 'white'};
+                opacity: 1;
+                transition: background-color 0.4s ease, all 0.35s cubic-bezier(.5,-0.35,.35,1.5) 0s;
               }
-              #menu-checkbox:checked + .menu-toggle #menu-bar2 {
-                transform: scaleX(0);
-                opacity: 0;
+
+              .bar--top {
+                bottom: calc(50% + 8px + 3px/ 2);
+                transition-property: bottom,margin,transform,background-color;
+                transition-delay: calc(0s + 0.35s),0s,0s,0s;
               }
-              #menu-checkbox:checked + .menu-toggle #menu-bar1 {
-                width: 100%;
+
+              .bar--middle {
+                top: calc(50% - 3px/ 2);
+                transition-property: top,opacity,background-color;
+                transition-duration: 0.35s,0s,0.4s;
+                transition-delay: calc(0s + 0.35s * 1.3),calc(0s + 0.35s * 1.3),0s;
+              }
+
+              .bar--bottom {
+                top: calc(50% + 8px + 3px/ 2);
+                transition-property: top,transform,background-color;
+                transition-delay: 0s,0s,0s;
+              }
+
+              #menu-checkbox:checked + .toggle .bar--top {
+                bottom: calc(50% - 8px - 3px);
+                margin-bottom: calc(8px + 3px/ 2);
                 transform: rotate(45deg);
+                transition-delay: calc(0s + 0.35s * .3),calc(0s + 0.35s * 1.3),calc(0s + 0.35s * 1.3),0s;
               }
-              #menu-checkbox:checked + .menu-toggle #menu-bar3 {
-                width: 100%;
+
+              #menu-checkbox:checked + .toggle .bar--middle {
+                top: calc(50% + 8px);
+                opacity: 0;
+                transition-duration: 0.35s,0s,0.4s;
+                transition-delay: 0s,calc(0s + 0.35s),0s;
+              }
+
+              #menu-checkbox:checked + .toggle .bar--bottom {
+                top: calc(50% - 3px/ 2);
                 transform: rotate(-45deg);
-              }
-              #menu-checkbox:checked + .menu-toggle {
-                transform: rotate(180deg);
+                transition-delay: calc(0s + 0.35s * 1.3),calc(0s + 0.35s * 1.3),0s;
               }
             `}</style>
             <input 
@@ -83,10 +103,10 @@ export default function Header() {
               checked={isMenuOpen}
               onChange={() => setIsMenuOpen(!isMenuOpen)}
             />
-            <label htmlFor="menu-checkbox" className="menu-toggle">
-              <div className={`menu-bars ${isMenuOpen ? 'bg-black' : 'bg-white'}`} id="menu-bar1" />
-              <div className={`menu-bars ${isMenuOpen ? 'bg-black' : 'bg-white'}`} id="menu-bar2" />
-              <div className={`menu-bars ${isMenuOpen ? 'bg-black' : 'bg-white'}`} id="menu-bar3" />
+            <label className="toggle" htmlFor="menu-checkbox">
+              <div className="bar bar--top" />
+              <div className="bar bar--middle" />
+              <div className="bar bar--bottom" />
             </label>
           </div>
         </div>
